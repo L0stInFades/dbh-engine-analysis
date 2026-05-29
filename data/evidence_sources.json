@@ -1,0 +1,284 @@
+{
+  "scope": "Public-safe index of aggregate research outputs used by this digest. Source files are not included in this repository.",
+  "sources": [
+    {
+      "name": "bigfile_index_summary.json",
+      "category": "asset_index",
+      "key_metrics": {
+        "idx_entries": 373748,
+        "resource_types": 41,
+        "unpadded_size_gb": 57.31
+      },
+      "supports": [
+        "global resource index evidence",
+        "resource type distribution evidence",
+        "public aggregate resource scale"
+      ],
+      "does_not_prove": [
+        "runtime load order",
+        "official editor naming"
+      ]
+    },
+    {
+      "name": "bigfile_dep_full_export_summary.json",
+      "category": "dependency_graph",
+      "key_metrics": {
+        "dep_edges": 1002543,
+        "owners_with_deps": 117586,
+        "idx_backed_dep_edges": 547368,
+        "internal_or_non_idx_dep_edges": 455175
+      },
+      "supports": [
+        "explicit dependency graph evidence",
+        "sequence resource graph evidence",
+        "asset composition auditing"
+      ],
+      "does_not_prove": [
+        "exact runtime streaming order",
+        "complete internal object semantics"
+      ]
+    },
+    {
+      "name": "sequence_full_summary.json",
+      "category": "sequence_director",
+      "key_metrics": {
+        "sequence_count": 5479,
+        "timeline_chunks": 1117054,
+        "action_markers": 809404
+      },
+      "supports": [
+        "SEQUENCE as a first-class resource",
+        "dense timeline organization",
+        "director timeline auditability"
+      ],
+      "does_not_prove": [
+        "official editor UI",
+        "all payload field meanings"
+      ]
+    },
+    {
+      "name": "sequence_director_event_summary.json",
+      "category": "sequence_director",
+      "key_metrics": {
+        "director_events": 616474,
+        "timed_director_events": 590149,
+        "animation_events": 242821,
+        "camera_quake_events": 162999,
+        "dialogue_events": 8515,
+        "ui_events": 1786
+      },
+      "supports": [
+        "multi-system director event evidence",
+        "timed event window analysis",
+        "branch, input, UI and material co-occurrence evidence"
+      ],
+      "does_not_prove": [
+        "exact same-frame synchronization",
+        "official event class names"
+      ]
+    },
+    {
+      "name": "rendering_architecture_dossier_summary.json",
+      "category": "rendering",
+      "key_metrics": {
+        "spirv_modules": 81649,
+        "pipeline_rows": 99453,
+        "unique_shader_pairs": 42343
+      },
+      "supports": [
+        "cooked shader library evidence",
+        "pipeline-state manifest evidence",
+        "shader pair and pass family analysis"
+      ],
+      "does_not_prove": [
+        "official pass names",
+        "complete runtime pipeline cache implementation"
+      ]
+    },
+    {
+      "name": "render_descriptor_abi_summary.json",
+      "category": "rendering",
+      "key_metrics": {
+        "pipeline_descriptor_occurrences": 2408937,
+        "unique_descriptor_keys": 33,
+        "unique_binding_keys": 57,
+        "unique_resource_names": 25,
+        "qdif_spirv_matched_descriptor_bindings": 729418
+      },
+      "supports": [
+        "descriptor ABI evidence",
+        "resource vocabulary evidence",
+        "geometry/material/cluster/pass-texture binding roles"
+      ],
+      "does_not_prove": [
+        "source-level descriptor layout definitions",
+        "all shader reflection semantics"
+      ]
+    },
+    {
+      "name": "shot_lens_light_summary.json",
+      "category": "cinematic_camera",
+      "key_metrics": {
+        "shot_instances": 27870,
+        "timed_shot_events": 27959,
+        "light_groups": 109424,
+        "fov_p50": 33.6,
+        "f_stop_p50": 4.0
+      },
+      "supports": [
+        "authored shot evidence",
+        "lens and light data evidence",
+        "cinematic shot review metrics"
+      ],
+      "does_not_prove": [
+        "complete runtime camera arbitration",
+        "official cinematography tool schema"
+      ]
+    },
+    {
+      "name": "camera_bank_full_summary.json",
+      "category": "camera_system",
+      "key_metrics": {
+        "camera_banks": 68,
+        "parsed_blocks": 1862,
+        "feature_rows": 32617,
+        "modifier_features": 16070,
+        "target_features": 14033
+      },
+      "supports": [
+        "camera bank evidence",
+        "target and modifier evidence",
+        "gameplay/cinematic camera bridge evidence"
+      ],
+      "does_not_prove": [
+        "complete runtime camera priority rules",
+        "all modifier equations"
+      ]
+    },
+    {
+      "name": "dialogue_audio_atoms_summary.json",
+      "category": "dialogue_audio_localization",
+      "key_metrics": {
+        "flow_dialog_atoms": 80976,
+        "unique_sound_bases": 6748,
+        "audio_languages_observed": 12,
+        "atoms_with_anim_data": 74364,
+        "atoms_with_sound_event_base_match": 80946
+      },
+      "supports": [
+        "DialogueAtom design evidence",
+        "audio, animation and localization bridge evidence",
+        "multi-language dialogue scale"
+      ],
+      "does_not_prove": [
+        "dialogue text content",
+        "complete localization pipeline"
+      ]
+    },
+    {
+      "name": "flowchart_narrative_ui_summary.json",
+      "category": "ui_flowchart",
+      "key_metrics": {
+        "ui_resources_scanned": 128,
+        "flowchart_ui_resources": 32,
+        "eng_flowchart_node_keys": 2692,
+        "localization_languages": 26
+      },
+      "supports": [
+        "flowchart UI evidence",
+        "branch narrative review surface",
+        "localization and UI consistency checks"
+      ],
+      "does_not_prove": [
+        "full flowchart runtime graph",
+        "localized text content"
+      ]
+    },
+    {
+      "name": "shader_controller_narrative_summary.json",
+      "category": "material_controller",
+      "key_metrics": {
+        "mvshader_rows": 5283,
+        "parameter_occurrences": 8909,
+        "unique_parameters": 281,
+        "controller_families": 9
+      },
+      "supports": [
+        "material controller bridge evidence",
+        "narrative state to rendering evidence",
+        "damage, LED, weather, fluid, cloth and face controller families"
+      ],
+      "does_not_prove": [
+        "official material controller class names",
+        "runtime update functions"
+      ]
+    },
+    {
+      "name": "finalize_data_full_summary.json",
+      "category": "post_finalize",
+      "key_metrics": {
+        "finalize_data_resources": 64,
+        "color_gr_blocks": 64,
+        "grain_blocks": 63
+      },
+      "supports": [
+        "post preset resource evidence",
+        "color grading and grain block evidence"
+      ],
+      "does_not_prove": [
+        "complete final frame composition order",
+        "all presentation parameters"
+      ]
+    },
+    {
+      "name": "post_finalize_narrative_summary.json",
+      "category": "post_finalize",
+      "key_metrics": {
+        "viewport_fades": 795,
+        "finalize_actions": 142,
+        "post_director_event_rows": 882,
+        "timed_post_director_event_rows": 624
+      },
+      "supports": [
+        "post/finalize director event evidence",
+        "sequence-timed presentation changes",
+        "PostPreset/PostStack design recommendations"
+      ],
+      "does_not_prove": [
+        "exact blend equations",
+        "all runtime restore policies"
+      ]
+    },
+    {
+      "name": "script_collection_summary.json",
+      "category": "script_logic",
+      "key_metrics": {
+        "script_collections": 855
+      },
+      "supports": [
+        "cooked script collection evidence",
+        "logic resource presence"
+      ],
+      "does_not_prove": [
+        "full script graph",
+        "variable slot semantics"
+      ]
+    },
+    {
+      "name": "script_lua_summary.json",
+      "category": "script_logic",
+      "key_metrics": {
+        "scanned_chunks": 18258,
+        "instructions": 8644607
+      },
+      "supports": [
+        "script bytecode scale evidence",
+        "logic system scale"
+      ],
+      "does_not_prove": [
+        "full runtime control-flow graph",
+        "script source text"
+      ]
+    }
+  ]
+}

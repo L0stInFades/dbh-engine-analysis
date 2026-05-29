@@ -1,0 +1,11 @@
+resource_type,count,unpadded_size_mb,public_reading
+DATA_CONTAINER,3265,26280.00,Container and streaming-scale payload evidence
+ENGINE_TEXTURE_FILE_RAW_LOD,78923,12300.00,High-volume texture LOD evidence
+COM_SOUND_DATA,80976,11700.00,Dialogue and localized audio payload evidence
+ANIM_DATA,24562,6840.00,Performance animation payload evidence
+ENGINE_TEXTURE_FILE_RAW,49016,3330.00,Non-LOD texture payload evidence
+SEQUENCE,5479,360.68,Director timeline resource evidence
+UI_MENU_RESOURCE,128,303.51,Scaleform/UI resource evidence
+SCRIPT_COLLECTION,855,185.05,Cooked script collection evidence
+CAMERA_SYSTEM_BANK,68,9.08,Camera behavior bank evidence
+FLOW_DIALOG,80976,6.99,Dialogue atom evidence

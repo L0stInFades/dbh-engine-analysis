@@ -1,160 +1,301 @@
-# 如果自己做引擎，应该抄什么
+# 如果自己做引擎，应该怎么抄
 
-不要照抄 DBH 文件格式。真正值得抄的是生产系统思想。
+不要照抄 DBH 的文件格式。文件格式是结果，不是目的。真正值得抄的是它的生产系统思想：把作者意图变成可构建、可依赖追踪、可审计、可 profile 的数据。
 
-## 1. 资源图是一等公民
+这一章按“自己做引擎时应该落哪些模块”来写。
 
-每个 cooked resource 都应该有：
+## 1. 资源图先行
 
-- resource id
-- type id/name
-- source asset path
-- cooked offset/size/hash
-- dependency list
-- localization key links
-- sequence links
-- audio/animation/camera links
-- debug name
+很多自研引擎一开始只做 pak 或 bundle：能打包、能加载、能压缩，就算资源系统完成了。这个阶段如果不保留依赖图，后面做剧情、对白、多语言、分支、shader cache、热更新、QA 都会很痛苦。
 
-release build 可以 strip debug 信息，但内部 build 必须保留 debug manifest。没有资源图，后面的 sequence profiler、branch QA、rendering audit 都会缺底座。
+建议一开始就设计：
 
-## 2. Sequence 是 authoritative timeline
+```text
+ResourceRecord
+  resource_id
+  type
+  source_path
+  cooked_path
+  package_id
+  offset
+  size
+  hash
+  dependencies
+  debug_name
+  owner_system
+```
 
-不要把剧情写成散落脚本。建议从一开始就设计：
+内部 build 一定要有 debug manifest。release 可以 strip，但构建机器、编辑器和 QA 工具必须能查：
+
+- 这个 sequence 依赖哪些动画、声音、UI、后处理？
+- 这个动画被哪些 sequence 使用？
+- 这个本地化 key 是否有音频和字幕？
+- 这个 shader/material controller 被哪些角色或段落使用？
+- 这个资源是否只存在于本地化表里，却没有 UI/flowchart 资源？
+
+DBH 的 idx/dep 证据说明这件事非常重要。资源图不是锦上添花，它是生产系统的地基。
+
+## 2. Sequence 做成一等公民
+
+如果你的目标是强剧情，不要把 sequence 当成 cutscene 插件。它应该是核心系统。
+
+建议的数据模型：
 
 ```text
 Chapter
   Scene
     Sequence
-      Shot
-      Dialogue
-      Animation
-      Camera
-      Sound
-      UI Prompt
-      Input Window
-      Branch Condition
-      Variable Write
-      Material Controller
-      Post Preset
+      ShotTrack
+      AnimationTrack
+      DialogueTrack
+      AudioTrack
+      CameraTrack
+      InputTrack
+      BranchTrack
+      VariableTrack
+      UITrack
+      MaterialControllerTrack
+      PostPresetTrack
 ```
 
-每个节点都要能回答：
+每个 sequence 至少要能回答：
 
-- 前置条件是什么？
-- 修改哪些变量？
-- 播放哪些动画/声音/字幕？
-- 使用哪个镜头、DOF、后处理？
-- 失败、超时、死亡、缺席角色怎么办？
-- flowchart 如何显示？
+- 它依赖哪些资源？
+- 哪些事件有时间，哪些事件无时间？
+- 哪些事件会写变量？
+- 哪些事件会打开输入窗口？
+- 哪些事件会跳分支？
+- 哪些对白有本地化、音频、口型、表演动画？
+- 哪些材质 controller 会改变角色状态？
+- 哪些后处理 preset 会 push/pop/blend？
+- 跳过、失败、超时、死亡、角色缺席时怎么恢复？
 
-## 3. 互动逻辑进入导演时钟
+没有这些信息，互动电影段落会很快变成“能跑，但没人敢改”。
 
-不要拆成：
+## 3. DirectorEvent 统一事件语义
 
-- cutscene player
-- QTE manager
-- variable system
-- UI prompt manager
-- subtitle manager
-- camera override script
-
-更好的做法是统一成：
+不要把 QTE、变量、UI、相机、对白都做成互不认识的模块。更好的方式是让它们都能落到统一事件表里。
 
 ```text
 DirectorEvent
-  time_range
+  event_id
+  sequence_id
+  time_start
+  time_end
   category
+  action_type
+  payload_ref
   condition_ref
+  resource_refs
+  variable_reads
   variable_writes
-  input_prompt
-  failure_target
-  timeout_target
-  cooccurrence_tags
+  branch_target
+  debug_label
 ```
 
-这样工具能生成 event row、bucket profile、response window、branch topology、UI prompt window，而不是让 QA 靠录屏猜同步问题。
+这个表的价值不是运行时一定要照它执行，而是工具链可以用它做：
 
-## 4. 对白做成 DialogueAtom
+- event density heatmap
+- 2 秒/4 秒 response window
+- branch topology
+- UI prompt window
+- dialogue delivery window
+- shot/editing rhythm
+- material/post co-occurrence
+- sequence resource composition
 
-对白节点应该同时绑定：
+DBH 的证据显示，这些窗口分析非常有价值。比如 17,903 个 timed core logic seed 中，2 秒窗口有 91.83% 带 cinematic response。这个信息比“这里有个 QTE”有用得多。
 
-- 字幕 key
-- 多语言音频
-- speaker
-- event name
-- lipsync/facial/performance
-- fallback
-- subtitle style
-- flowchart/review metadata
+## 4. DialogueAtom 统一对白
 
-不要让音频、本地化、字幕、口型和表演动画各自维护一套 ID。
+对白最容易被拆散：音频部门一个 ID，本地化一个 key，字幕一个 key，动画一个 lipsync，脚本再记一个事件名。项目小的时候能忍，项目大了就会崩。
 
-## 5. Camera bank 比相机组件重要
+建议做：
 
-互动电影项目需要 camera bank 和 camera modifier stack：
+```text
+DialogueAtom
+  atom_id
+  speaker
+  text_key
+  audio_event
+  audio_by_language
+  lipsync_ref
+  facial_anim_ref
+  body_anim_ref
+  subtitle_style
+  flowchart_link
+  fallback_policy
+```
 
-- zone/scene camera
-- character target
-- bone/locator target
-- smooth/offset/deadzone
+然后 sequence 播放的是 `DialogueAtom`，而不是直接播放某个语言的音频文件。字幕、音频、表演、flowchart 都从同一个 atom 查数据。
+
+DBH 的 `FLOW_DIALOG`、`COM_SOUND_DATA`、`COM_SOUND_EVENT_DRIVEN`、`ANIM_DATA`、本地化联表说明这条路线很适合强剧情项目。
+
+## 5. Shot/Lens/Light 做成可审计资产
+
+shot 不应该只是 camera cut。至少要包含：
+
+```text
+Shot
+  shot_id
+  time_range
+  camera_transform
+  lens_fov
+  focus_plane
+  f_stop
+  light_groups
+  key_fill_rim_tags
+  post_hint
+  audio_mix_hint
+```
+
+还要做 shot review 工具：
+
+- 每个 sequence 有多少 shot。
+- shot 平均/中位时长是多少。
+- 哪些 shot 没有 lens。
+- 哪些 shot 没有 light group。
+- 哪些 shot 有 key/fill/rim。
+- shot 周围 2 秒是否有 dialogue、sound、camera、performance。
+
+DBH 的 shot/lens/light 证据说明，镜头语言可以被大量数据化。自研引擎不要只在 DCC 里看镜头，进引擎后也要能审计。
+
+## 6. Camera bank 解决玩法和导演抢权
+
+互动电影不是纯播片。玩家可能移动、观察、输入、失败、超时，导演镜头和玩法相机要不断抢权。
+
+建议做：
+
+```text
+CameraBank
+  scene_or_zone
+  behavior
+  target_rules
+  modifier_stack
+  noise_profile
+  fallback_camera
+  sequence_override_policy
+```
+
+modifier 至少要考虑：
+
+- smooth
+- offset
+- deadzone
 - auto-focus
-- quake/noise
-- POI/ICO
-- sequence override
-- gameplay fallback
+- advanced framing
+- noise/handheld
+- POI/interest target
+- spring
+- camera shake
 
-目标不是做一个炫酷相机，而是能在玩家控制和导演镜头之间稳定抢权、混合、恢复。
+不要只做一个“电影相机轨”。你真正需要的是 gameplay camera、sequence camera、zone camera、target camera 之间的过渡和恢复策略。
 
-## 6. 后处理资源化
+## 7. MaterialController 做成跨系统接口
 
-后处理不要散落在相机脚本里。做成：
+这是最建议自研引擎提前设计的部分。
+
+```text
+MaterialController
+  name
+  type
+  default_value
+  range
+  unit
+  remap_curve
+  target_material_slots
+  script_api
+  sequence_binding
+  gpu_layout_binding
+```
+
+它要同时服务四层：
+
+| 层 | 用途 |
+|---|---|
+| 资产/材质图 | 声明 controller，定义范围和目标 slot |
+| 脚本/运行时 | 维护长期角色状态 |
+| Sequence | 按镜头精确动画 |
+| 渲染 | 执行 cooked layout 和 buffer update |
+
+比如受伤、血迹、雨水、泥、眼泪、LED、仿生人皮肤收缩，这些都不应该只是一个 shader 参数。它们是剧情状态。
+
+## 8. PostPreset 和 PostStack 资源化
+
+后处理不要散在相机脚本里。做成资源：
 
 ```text
 PostPreset
+  id
   color_grading
-  exposure
   grain
+  exposure
   dof
   bloom
-  motion_blur
   ssr
-  volume
+  motion_blur
   version
-  hash
+  fingerprint
 ```
 
-Sequence action 可以 push/pop/blend preset。Profiler 能回答哪些 sequence 用了哪些 preset，哪些字段变化最大。
+运行时做 stack：
 
-## 7. Material controller 跨四层
+```text
+PostStack
+  gameplay_layer
+  camera_layer
+  sequence_layer
+  cinematic_override_layer
+  debug_layer
+  blend_policy
+  restore_policy
+```
 
-角色状态 controller 要同时出现在：
+这样 sequence 结束、分支跳转、玩家打断、死亡重来时，后处理状态可以恢复，不会残留。
 
-| 层 | 作用 |
+## 9. Flowchart 当成 QA 系统
+
+如果你的游戏有复杂分支，flowchart 不只是给玩家看的菜单。它应该反过来帮助开发：
+
+- 每个剧情节点是否有标题。
+- 每个节点是否有多语言文本。
+- 死亡、失败、结局、隐藏路径是否有状态。
+- checkpoint 是否能回到正确变量状态。
+- 分支条件是否能追踪到脚本变量。
+- flowchart UI asset 和 localization key 是否互相匹配。
+
+DBH 的 flowchart 证据里有 32 个 flowchart UI resource、2,692 个英文 node key、26 种本地化语言。这说明分支 review 是生产系统的一部分。
+
+## 10. 渲染工具链尽早做
+
+至少做这些报告：
+
+| 工具 | 解决的问题 |
 |---|---|
-| 材质/资产 | 声明 controller 名称、类型、范围、remap、目标 shader slot |
-| 脚本/运行时 | 维护长期状态，比如伤口、雨水、污渍、LED |
-| Sequence | 短时精确排演，与镜头、对白、动画同步 |
-| 渲染 | 执行 cooked layout 和 GPU buffer update |
+| Pipeline manifest | 知道有哪些 pipeline state |
+| Shader pair report | 找出变体压力 |
+| Descriptor ABI report | 看清资源绑定和 layout |
+| Pass family report | 按渲染路径分类 pipeline |
+| Texture streaming report | 管理贴图体量和分块 |
+| Material controller report | 追踪叙事状态进入材质 |
+| Post preset report | 追踪后处理状态 |
+| Rendering audit viewer | 把上述证据串起来 |
 
-这样角色状态不会在分支、镜头切换或章节衔接里丢失。
+这些工具不是“高级项目才需要”。如果目标是电影化互动游戏，它们应该比很多效果功能更早出现。
 
-## 8. 工具链优先级高于效果列表
+## 11. 最小可落地路线
 
-建议优先做这些工具：
+如果团队资源有限，可以按这个顺序做：
 
-- resource graph viewer
-- sequence editor
-- sequence profiler
-- shot/lens/light review
-- dialogue atom review
-- localization/audio/subtitle review
-- branch/flowchart QA
-- UI prompt window audit
-- material controller timeline view
-- post/finalize stack review
-- pipeline cache builder
-- rendering audit viewer
-- shader variant pressure report
+1. 资源 ID + dependency manifest。
+2. Sequence event table。
+3. DialogueAtom。
+4. ShotTrack + CameraBank。
+5. Variable/Branch/Input event 进入 DirectorEvent。
+6. MaterialController 统一命名和绑定。
+7. PostPreset 资源化。
+8. Sequence profiler。
+9. Pipeline/descriptor/shader pair 报告。
+10. Flowchart QA。
 
-电影化互动游戏的难点不是“能不能播一个镜头”，而是几千个段落、几十万事件、多语言、多分支、多角色状态能不能被持续生产和维护。
+不要等所有系统都成熟再做审计。审计工具越晚做，越只能服务排错；越早做，越能反过来塑造内容生产方式。

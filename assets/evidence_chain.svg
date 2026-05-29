@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760">
+  <defs>
+    <style>
+      .bg { fill: #f7f8f3; }
+      .title { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #1d2528; }
+      .subtitle { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 20px; fill: #526064; }
+      .box { fill: #ffffff; stroke: #d6dcd8; stroke-width: 2; rx: 8; }
+      .source { fill: #e9f2f4; stroke: #7faab4; stroke-width: 2; rx: 8; }
+      .analysis { fill: #f4efe5; stroke: #caa04f; stroke-width: 2; rx: 8; }
+      .system { fill: #eef2e6; stroke: #91a66a; stroke-width: 2; rx: 8; }
+      .lesson { fill: #f1e9ed; stroke: #bd7d94; stroke-width: 2; rx: 8; }
+      .label { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 22px; font-weight: 800; fill: #172023; }
+      .text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 17px; fill: #263235; }
+      .small { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 15px; fill: #536063; }
+      .tiny { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 13px; fill: #697477; }
+      .arrow { stroke: #526f77; stroke-width: 4; fill: none; }
+      .dash { stroke: #89969a; stroke-width: 2; fill: none; stroke-dasharray: 7 7; }
+      .band { fill: #25393f; }
+      .bandText { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 20px; font-weight: 800; fill: #ffffff; }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#526f77"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="760"/>
+  <text class="title" x="70" y="72">DBH 引擎分析的证据链</text>
+  <text class="subtitle" x="72" y="108">公开版只发布聚合指标和解释；不发布原始资产、二进制样本、对白全文或大型扫描表。</text>
+
+  <rect class="band" x="70" y="138" width="280" height="44" rx="8"/>
+  <text class="bandText" x="92" y="167">1. 原始结构信号</text>
+  <rect class="band" x="380" y="138" width="280" height="44" rx="8"/>
+  <text class="bandText" x="402" y="167">2. 离线聚合报告</text>
+  <rect class="band" x="690" y="138" width="280" height="44" rx="8"/>
+  <text class="bandText" x="712" y="167">3. 系统关系证据</text>
+  <rect class="band" x="1000" y="138" width="280" height="44" rx="8"/>
+  <text class="bandText" x="1022" y="167">4. 工程判断</text>
+  <rect class="band" x="1310" y="138" width="220" height="44" rx="8"/>
+  <text class="bandText" x="1332" y="167">5. 自研启发</text>
+
+  <rect class="source" x="70" y="215" width="280" height="120" rx="8"/>
+  <text class="label" x="95" y="247">资源包 / 索引 / DEP</text>
+  <text class="text" x="95" y="278">idx 条目、资源类型、大小</text>
+  <text class="text" x="95" y="305">owner / target 依赖边</text>
+
+  <rect class="source" x="70" y="375" width="280" height="120" rx="8"/>
+  <text class="label" x="95" y="407">Sequence / Pipeline</text>
+  <text class="text" x="95" y="438">timeline chunk、event</text>
+  <text class="text" x="95" y="465">SPIR-V、pipeline record</text>
+
+  <rect class="source" x="70" y="535" width="280" height="120" rx="8"/>
+  <text class="label" x="95" y="567">专项资源信号</text>
+  <text class="text" x="95" y="598">shot、dialogue、UI</text>
+  <text class="text" x="95" y="625">MVSHADER、FINALIZE_DATA</text>
+
+  <rect class="analysis" x="380" y="215" width="280" height="120" rx="8"/>
+  <text class="label" x="405" y="247">索引和依赖摘要</text>
+  <text class="text" x="405" y="278">373,748 idx entries</text>
+  <text class="text" x="405" y="305">1,002,543 DEP edges</text>
+
+  <rect class="analysis" x="380" y="375" width="280" height="120" rx="8"/>
+  <text class="label" x="405" y="407">时间线和渲染摘要</text>
+  <text class="text" x="405" y="438">616,474 director events</text>
+  <text class="text" x="405" y="465">99,453 pipeline rows</text>
+
+  <rect class="analysis" x="380" y="535" width="280" height="120" rx="8"/>
+  <text class="label" x="405" y="567">叙事专项摘要</text>
+  <text class="text" x="405" y="598">80,976 FLOW_DIALOG atoms</text>
+  <text class="text" x="405" y="625">5,283 MVSHADER rows</text>
+
+  <rect class="system" x="690" y="215" width="280" height="120" rx="8"/>
+  <text class="label" x="715" y="247">资源图闭合</text>
+  <text class="text" x="715" y="278">sequence 能追踪依赖</text>
+  <text class="text" x="715" y="305">资源组成可以审计</text>
+
+  <rect class="system" x="690" y="375" width="280" height="120" rx="8"/>
+  <text class="label" x="715" y="407">导演时间窗闭合</text>
+  <text class="text" x="715" y="438">镜头、对白、输入、UI</text>
+  <text class="text" x="715" y="465">材质、后处理可同窗分析</text>
+
+  <rect class="system" x="690" y="535" width="280" height="120" rx="8"/>
+  <text class="label" x="715" y="567">渲染 ABI 闭合</text>
+  <text class="text" x="715" y="598">shader、pipeline、descriptor</text>
+  <text class="text" x="715" y="625">resource vocabulary 可审计</text>
+
+  <rect class="lesson" x="1000" y="215" width="280" height="120" rx="8"/>
+  <text class="label" x="1025" y="247">不是普通 cutscene</text>
+  <text class="text" x="1025" y="278">SEQUENCE 更像实时导演系统</text>
+  <text class="small" x="1025" y="308">强证据：时间线规模和事件类别</text>
+
+  <rect class="lesson" x="1000" y="375" width="280" height="120" rx="8"/>
+  <text class="label" x="1025" y="407">不是运行时黑箱</text>
+  <text class="text" x="1025" y="438">渲染复杂度提前 cook</text>
+  <text class="small" x="1025" y="468">强证据：pipeline / descriptor 报告</text>
+
+  <rect class="lesson" x="1000" y="535" width="280" height="120" rx="8"/>
+  <text class="label" x="1025" y="567">不是孤立系统</text>
+  <text class="text" x="1025" y="598">对白、UI、材质、后处理互相桥接</text>
+  <text class="small" x="1025" y="628">桥接证据：跨表 join / co-occurrence</text>
+
+  <rect class="box" x="1310" y="265" width="220" height="300" rx="8"/>
+  <text class="label" x="1335" y="304">自研引擎该学</text>
+  <text class="text" x="1335" y="344">资源图先行</text>
+  <text class="text" x="1335" y="382">Sequence 一等公民</text>
+  <text class="text" x="1335" y="420">DialogueAtom</text>
+  <text class="text" x="1335" y="458">MaterialController</text>
+  <text class="text" x="1335" y="496">Pipeline/ABI 报告</text>
+  <text class="text" x="1335" y="534">Flowchart QA</text>
+
+  <path class="arrow" d="M350 275 L380 275" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M350 435 L380 435" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M350 595 L380 595" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M660 275 L690 275" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M660 435 L690 435" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M660 595 L690 595" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M970 275 L1000 275" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M970 435 L1000 435" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M970 595 L1000 595" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M1280 435 L1310 435" marker-end="url(#arrowhead)"/>
+
+  <path class="dash" d="M520 335 C560 355 610 365 690 410"/>
+  <path class="dash" d="M520 535 C590 505 625 485 690 455"/>
+  <path class="dash" d="M830 335 C870 360 910 380 1000 410"/>
+  <path class="dash" d="M830 535 C900 515 940 565 1000 595"/>
+
+  <text class="tiny" x="70" y="720">边界：强数字用于证明规模和结构；跨表联结用于证明系统关系；candidate/evidence 词用于标记推断，不冒充官方字段名或源码事实。</text>
+</svg>
