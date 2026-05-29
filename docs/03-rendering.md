@@ -70,6 +70,19 @@ DBH PC 版有 42,343 个 unique shader pair，38,477 个 state-expanded shader p
 
 这个数字很有用。它说明绝大多数 shader pair 变体压力不算夸张，但也存在少数极端 pair。对引擎工具来说，最应该自动标红的正是这些极端点。
 
+更细的 family profile 可以看 `data/render_family_profiles.csv`：
+
+| family | pipeline | unique shader pair | p95 fanout | max fanout | 读法 |
+|---|---:|---:|---:|---:|---|
+| clustered lighting | 48,718 | 23,344 | 4 | 12 | 总量最大，但单个 shader pair fanout 控制得相对稳 |
+| simple texture/material | 23,198 | 8,257 | 6 | 175 | 常规材质路径有明显长尾 |
+| default material forward/gbuffer | 13,006 | 6,238 | 3 | 8 | 默认材质候选路径分布较平 |
+| material instance state | 10,135 | 2,919 | 6 | 10 | material instance buffer 对应一个独立压力层 |
+| shadow/depth | 2,906 | 884 | 3 | 332 | 总量不大，但有最大 fanout 极端点 |
+| post process/pass texture | 1,490 | 701 | 3 | 6 | 后处理/pass texture 路径较小但可见 |
+
+这里最值得注意的是 `shadow/depth`。如果只看 pipeline 总数，它只有 2.92%；但如果看 max fanout，它反而是最极端的。也就是说，渲染审计工具不能只按总量排序，还要按 shader pair fanout、状态 tuple、resource vocabulary 一起看。
+
 建议自研 pipeline cache builder 至少输出：
 
 ```text

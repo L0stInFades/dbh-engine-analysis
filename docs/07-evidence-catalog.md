@@ -20,13 +20,18 @@
 | `bigfile_dep_full_export_summary.json` | 1,002,543 DEP edges | 资源依赖是显式可扫描数据，能支撑资源图分析 |
 | `sequence_full_summary.json` | 5,479 sequences，1,117,054 timeline chunks | `SEQUENCE` 是高密度导演时间线资源 |
 | `sequence_director_event_summary.json` | 616,474 director events，590,149 timed | 多数导演事件有时间信息，适合做 timeline audit |
+| `interactive_decision_window_summary.json` | 17,903 timed core logic seeds | 输入、分支、变量、UI 常常和电影化事件同窗 |
+| `dialogue_delivery_window_summary.json` | 7,560 timed dialogue seeds | 对白事件周围通常有镜头、相机、表演、声音 |
+| `ui_prompt_window_summary.json` | 1,414 timed UI seeds | UI prompt 多数嵌在电影化和互动逻辑上下文 |
 | `rendering_architecture_dossier_summary.json` | 81,649 SPIR-V，99,453 pipeline rows | 渲染复杂度被 cook 成 shader/pipeline 可审计数据 |
 | `render_descriptor_abi_summary.json` | 2,408,937 descriptor occurrences | descriptor/resource vocabulary 能支持 ABI 级分析 |
+| `render_pipeline_variant_summary.json` | 42,343 shader pairs，max fanout 332 | shader pair 复用和变体压力可以离线审计 |
 | `shot_lens_light_summary.json` | 27,870 shots，109,424 light groups | 镜头、镜头参数和灯光是可统计的 authored 数据 |
 | `camera_bank_full_summary.json` | 68 banks，32,617 feature rows | 玩法相机、目标、modifier 有专门 bank 证据 |
 | `dialogue_audio_atoms_summary.json` | 80,976 FLOW_DIALOG atoms，12 audio languages | 对白、声音、动画、本地化不是孤立系统 |
 | `flowchart_narrative_ui_summary.json` | 32 flowchart UI resources，2,692 ENG node keys | flowchart 是分支叙事和 UI/本地化 QA 的一部分 |
 | `shader_controller_narrative_summary.json` | 5,283 MVSHADER rows，8,909 parameter occurrences | 材质 controller 是叙事、脚本和渲染之间的桥 |
+| `sequence_resource_composition_summary.json` | top 40 sequence，11,622 unique refs | 强电影化段落的资源组成跨动画、声音、对白、UI、材质 |
 | `finalize_data_full_summary.json` | 64 FINALIZE_DATA | 后处理/presentation preset 被资源化 |
 | `post_finalize_narrative_summary.json` | 795 viewport fades，142 finalize actions | 后处理会进入 sequence/director 时间窗 |
 | `script_collection_summary.json` | 855 script collections | 脚本集合是 cooked resource，而不是散落文本 |
@@ -50,6 +55,18 @@
 
 它不能证明的事情也很明确：它不能告诉我们官方编辑器里每个 event 的准确类型名，也不能证明 runtime 每帧执行顺序。
 
+### 时间窗专项
+
+三个 window summary 负责回答更具体的问题：某类事件前后 2 秒，同一条 sequence 时间线里还有什么。
+
+`interactive_decision_window_summary.json` 看到 17,903 个 timed core logic seed。2 秒窗口里，16,441 个 seed 有 cinematic response，占 91.83%；14,409 个有 performance，占 80.48%；13,175 个有 dialogue/sound，占 73.59%。
+
+`dialogue_delivery_window_summary.json` 看到 7,560 个 timed dialogue seed。2 秒 around 窗口里，7,472 个有 delivery context，占 98.84%；7,416 个有 performance，占 98.10%；7,161 个有 camera，占 94.72%。
+
+`ui_prompt_window_summary.json` 看到 1,414 个 timed UI seed。2 秒 around 窗口里，1,403 个有 cinematic context，占 99.22%；1,090 个有 logic partner，占 77.09%；1,227 个有 shot，占 86.78%。
+
+这些数字不能证明因果绑定，但它们能证明一个工程事实：互动逻辑、对白、UI 并不是散落在导演系统外面的孤岛。
+
 ## 渲染 pipeline 和 descriptor
 
 `rendering_architecture_dossier_summary.json`、`render_descriptor_abi_summary.json` 和相关 shader/pipeline 报告，是渲染章节的主要来源。
@@ -66,6 +83,8 @@
 
 需要收住的是：pass family 是候选归类，不是官方 pass 名；descriptor ABI 是证据归纳，不是源码结构体。
 
+`render_pipeline_variant_summary.json` 进一步补上变体压力。42,343 个 shader pair 里，38,477 个被复用或有状态展开；每个 shader pair 的 pipeline 数 p50 是 2，p95 是 4，最大是 332。这个最大值来自少数长尾，正是渲染工具应该自动暴露的风险点。
+
 ## Shot、lens、light 和 camera bank
 
 `shot_lens_light_summary.json` 给出 27,870 个 shot instance、27,959 个 timed shot event、27,953 个 camera/lens group、109,424 个 light group。FOV p50 是 33.60，F-stop p50 是 4.0，timed shot duration p50 是 2,200 ms。
@@ -75,6 +94,8 @@
 `camera_bank_full_summary.json` 则从另一个方向补上玩法相机证据：68 个 `CAMERA_SYSTEM_BANK`、1,862 个 parsed block、32,617 行 feature、16,070 个 modifier、14,033 个 target。常见 modifier 包括 smooth、deadzone、offset、auto-focus、multi-noise、advanced framing 等。
 
 这说明 DBH 的相机系统不能只理解成“过场镜头”。它还有 camera bank、target、modifier 和 sequence override 之间的配合。
+
+公开数据里对应两张表：`shot_lens_light_summary.csv` 和 `camera_bank_summary.csv`。前者保留 shot、lens、light 的关键聚合指标；后者保留 camera bank 的 parsed block、modifier、target、noise profile 和 sequence-side camera action 数量。两张表合起来看，比单独说“相机系统复杂”更有说服力。
 
 ## 对白、声音、本地化和表演
 
@@ -101,6 +122,8 @@
 这个证据支撑的结论是：材质 controller 不是普通 shader 参数面板，而是叙事状态进入渲染的接口。角色受伤、血迹、雨水、污渍、LED、眼泪等状态，需要跨 sequence、脚本、材质和 GPU layout 保持一致。
 
 它不能证明每个参数的官方名称和运行时更新函数，但足以支撑引擎设计建议：MaterialController 应该成为跨系统数据模型，而不是临时脚本调用。
+
+`material_controller_family_summary.csv` 把 family 分布压成公开表。damage/blood/wound 有 4,052 次参数出现，android LED 有 1,977 次，weather/fluid/dirt 有 1,586 次。这个分布让“叙事状态进入材质”这句话更具体：它主要不是抽象颜色动画，而是角色受伤、仿生人身份状态、雨水污渍和面部状态这些会跨镜头延续的东西。
 
 ## 后处理和 finalize
 

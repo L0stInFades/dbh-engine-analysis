@@ -35,6 +35,10 @@ DBH 不是“普通游戏引擎 + 播片系统”。它更像一套围绕互动�
 | 渲染 | 81,649 个 SPIR-V module，99,453 条 pipeline-state record |
 | 材质控制 | 5,283 个 timed `MVSHADER`，8,909 次参数引用 |
 | UI/Flowchart | 128 个 UI resource，32 个 flowchart UI resource，2,692 个英文 flowchart node key |
+| 互动时间窗 | 17,903 个 timed core logic seed，2 秒内 91.83% 有 cinematic response |
+| 对白时间窗 | 7,560 个 timed dialogue seed，2 秒内 98.84% 有 delivery context |
+| UI 时间窗 | 1,414 个 timed UI seed，2 秒内 99.22% 有 cinematic context |
+| Top 40 sequence 资源组成 | 11,622 个 nonexclusive unique resource refs，平均每个 sequence 290.55 个 |
 
 这些都是公开版保留的聚合证据。仓库不会上传原始游戏资产、二进制样本、对白全文、本地化全文或大型扫描表。
 
@@ -48,6 +52,7 @@ DBH 不是“普通游戏引擎 + 播片系统”。它更像一套围绕互动�
 
 - [docs/02-evidence-map.md](docs/02-evidence-map.md)
 - [docs/07-evidence-catalog.md](docs/07-evidence-catalog.md)
+- [docs/08-public-data-guide.md](docs/08-public-data-guide.md)
 
 如果你关心渲染，读：
 
@@ -72,6 +77,15 @@ DBH 不是“普通游戏引擎 + 播片系统”。它更像一套围绕互动�
 - `data/resource_type_summary.csv`：公开安全的资源类型概览。
 - `data/system_evidence_matrix.csv`：系统、证据、指标和工程含义的对照表。
 - `data/evidence_sources.json`：本整理稿使用的主要原始研究产物索引。
+- `data/interaction_window_summary.csv`：互动逻辑事件周围 2 秒的同窗证据。
+- `data/dialogue_delivery_window_summary.csv`：对白事件周围 2 秒的镜头/相机/表演/声音证据。
+- `data/ui_prompt_window_summary.csv`：UI prompt 周围 2 秒的输入、分支和电影化上下文证据。
+- `data/director_event_category_summary.csv`：导演事件类别和 timed event 对照。
+- `data/shot_lens_light_summary.csv`：shot、镜头参数和灯光组的聚合证据。
+- `data/camera_bank_summary.csv`：camera bank 的 modifier、target、noise profile 聚合证据。
+- `data/material_controller_family_summary.csv`：`MVSHADER` controller family 的参数出现次数。
+- `data/render_family_profiles.csv`：渲染 pass family candidate 的 pipeline、shader pair 和变体压力概览。
+- `data/sequence_resource_composition_summary.csv`：top 40 cinematic sequence 的资源组成聚合证据。
 - `assets/dbh_vs_ue_unity_architecture.svg`：DBH 与常见 UE/Unity 项目组织方式的架构对照图。
 - `assets/evidence_chain.svg`：从资源包到工程结论的证据链图。
 

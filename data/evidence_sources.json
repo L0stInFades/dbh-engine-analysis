@@ -78,6 +78,63 @@
       ]
     },
     {
+      "name": "interactive_decision_window_summary.json",
+      "category": "sequence_director_window",
+      "key_metrics": {
+        "timed_core_logic_seeds": 17903,
+        "sequences_with_timed_logic_seed": 2270,
+        "two_second_cinematic_response_count": 16441,
+        "two_second_cinematic_response_ratio": 0.918338
+      },
+      "supports": [
+        "interactive logic response-window evidence",
+        "branch, input, variable, time-control and UI seed evidence",
+        "same-sequence cinematic co-occurrence analysis"
+      ],
+      "does_not_prove": [
+        "causal prompt binding",
+        "exact runtime execution order"
+      ]
+    },
+    {
+      "name": "dialogue_delivery_window_summary.json",
+      "category": "dialogue_window",
+      "key_metrics": {
+        "timed_dialogue_seeds": 7560,
+        "sequences_with_timed_dialogue": 786,
+        "two_second_delivery_context_count": 7472,
+        "two_second_delivery_context_ratio": 0.98836
+      },
+      "supports": [
+        "dialogue delivery window evidence",
+        "shot, camera, performance, sound and interactive-logic co-occurrence",
+        "DialogueAtom design recommendations"
+      ],
+      "does_not_prove": [
+        "dialogue text content",
+        "official dialogue system schema"
+      ]
+    },
+    {
+      "name": "ui_prompt_window_summary.json",
+      "category": "ui_window",
+      "key_metrics": {
+        "timed_ui_seeds": 1414,
+        "sequences_with_timed_ui": 406,
+        "two_second_cinematic_context_count": 1403,
+        "two_second_cinematic_context_ratio": 0.992221
+      },
+      "supports": [
+        "UI prompt window evidence",
+        "input, branch, shot, camera and performance co-occurrence",
+        "UI prompt as director-timed evidence"
+      ],
+      "does_not_prove": [
+        "complete prompt rule table",
+        "causal UI binding"
+      ]
+    },
+    {
       "name": "rendering_architecture_dossier_summary.json",
       "category": "rendering",
       "key_metrics": {
@@ -113,6 +170,26 @@
       "does_not_prove": [
         "source-level descriptor layout definitions",
         "all shader reflection semantics"
+      ]
+    },
+    {
+      "name": "render_pipeline_variant_summary.json",
+      "category": "rendering",
+      "key_metrics": {
+        "pipeline_rows_processed": 99453,
+        "unique_shader_pairs": 42343,
+        "reused_shader_pairs": 38477,
+        "single_pipeline_shader_pairs": 3866,
+        "max_pipelines_per_shader_pair": 332
+      },
+      "supports": [
+        "shader pair reuse evidence",
+        "pipeline variant fanout evidence",
+        "render family profile evidence"
+      ],
+      "does_not_prove": [
+        "official shader cache key",
+        "complete runtime warmup policy"
       ]
     },
     {
@@ -211,6 +288,29 @@
       "does_not_prove": [
         "official material controller class names",
         "runtime update functions"
+      ]
+    },
+    {
+      "name": "sequence_resource_composition_summary.json",
+      "category": "sequence_resource_composition",
+      "key_metrics": {
+        "selected_sequence_count": 40,
+        "total_unique_resource_refs_nonexclusive": 11622,
+        "avg_unique_resource_refs_per_sequence": 290.55,
+        "total_sequence_named_ref_rows": 28833,
+        "total_action_ref_rows": 34117,
+        "total_flow_dialog_link_rows": 3200,
+        "total_mvshader_rows_in_action_markers": 1981
+      },
+      "supports": [
+        "top cinematic sequence resource composition evidence",
+        "animation, dialogue/audio, UI and material-controller co-presence",
+        "sequence resource audit recommendations"
+      ],
+      "does_not_prove": [
+        "complete DEP graph",
+        "runtime load order",
+        "exact same-frame synchronization"
       ]
     },
     {

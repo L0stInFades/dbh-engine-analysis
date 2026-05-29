@@ -134,6 +134,16 @@ DialogueAtom
 
 互动逻辑不是额外挂在 cutscene 外面的 QTE manager。证据里有 17,903 个 timed core logic seed，来自 branch、input、variable、time control、UI 等类别。
 
+这些 seed 的组成也很直接：
+
+| seed 类别 | 数量 |
+|---|---:|
+| branch_condition | 10,157 |
+| variable | 3,109 |
+| input_condition | 2,300 |
+| ui | 1,414 |
+| time_control | 923 |
+
 2 秒窗口内，这些 timed logic seed 的同窗情况如下：
 
 | 2 秒窗口同窗项 | seed 数 | 比例 |
@@ -147,6 +157,8 @@ DialogueAtom
 | UI | 4,572 | 25.54% |
 
 这说明很多输入/分支/变量事件并不是孤立发生的。它们旁边常常有镜头、相机、表演、声音、材质或后处理。
+
+换成更通俗的话：玩家按键、分支判断、变量写入，不是“播片外面套一层逻辑”。它们经常就站在镜头、表演和声音旁边。做工具时，最好能点开一个输入窗口，马上看到同一时间窗里的 shot、dialogue、animation、material/post，而不是让 QA 在不同工具之间来回跳。
 
 所以自研引擎不要把互动逻辑拆成一堆互不认识的系统。更好的模型是：
 
@@ -235,6 +247,10 @@ top ref types 也很有意思：
 | `FINALIZE_DATA` | 3 |
 
 这说明强电影化段落不是单一轨道强，而是动画、声音、对白、本地化、UI、材质、后处理共同参与。
+
+还有两个小数字也值得看：40/40 个 top sequence 有 material controller evidence，35/40 个有 UI resource 或 prompt evidence。也就是说，强电影化段落几乎都不是“镜头 + 动画”这么简单；材质状态和 UI/互动提示也常常一起进场。
+
+公开版把这部分压成了 `data/sequence_resource_composition_summary.csv`。这张表只保留 top 40 的聚合结果，不保留逐资源明细，所以适合公开复查，也不会变成资产索引。
 
 ## 本章结论
 

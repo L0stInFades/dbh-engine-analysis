@@ -40,6 +40,32 @@
       "ui_menu_resources": 128,
       "flowchart_ui_resources": 32,
       "localization_languages_observed": 26
+    },
+    "window_evidence": {
+      "timed_core_logic_seeds": 17903,
+      "sequences_with_timed_logic_seed": 2270,
+      "logic_2s_cinematic_response_count": 16441,
+      "logic_2s_cinematic_response_ratio": 0.918338,
+      "timed_dialogue_seeds": 7560,
+      "sequences_with_timed_dialogue": 786,
+      "dialogue_2s_delivery_context_count": 7472,
+      "dialogue_2s_delivery_context_ratio": 0.98836,
+      "timed_ui_seeds": 1414,
+      "sequences_with_timed_ui": 406,
+      "ui_2s_cinematic_context_count": 1403,
+      "ui_2s_cinematic_context_ratio": 0.992221
+    },
+    "sequence_resource_composition": {
+      "selected_sequence_count": 40,
+      "total_unique_resource_refs_nonexclusive": 11622,
+      "avg_unique_resource_refs_per_sequence": 290.55,
+      "total_sequence_named_ref_rows": 28833,
+      "total_action_ref_rows": 34117,
+      "total_flow_dialog_link_rows": 3200,
+      "total_mvshader_rows_in_action_markers": 1981,
+      "sequences_with_material_controller_evidence": 40,
+      "sequences_with_ui_resource_or_prompt_evidence": 35,
+      "sequences_with_finalize_resource_or_post_evidence": 1
     }
   },
   "derived_systems": [

@@ -71,6 +71,23 @@ DBH 这类项目更像“段落/资源/时间线先行”。你先关心一个�
 
 公开版只保留聚合证据，不发布原始样本。你可以把这份仓库理解成一份“证据摘要 + 工程解释”。如果某个结论是强证据支持的，我会尽量给出数量和来源；如果只是候选解释，我会用 candidate/evidence 这样的词，不把它写成官方字段名。
 
+## 公开数据层
+
+这次公开版不只放正文，也放了一层可以直接检查的小型数据表。它们都在 `data/` 目录里。
+
+最有用的几张是：
+
+| 文件 | 你能用它验证什么 |
+|---|---|
+| `director_event_category_summary.csv` | `SEQUENCE` 里到底有哪些事件类别，各有多少 timed event |
+| `interaction_window_summary.csv` | 输入、分支、变量、UI 周围 2 秒是否有镜头、表演、对白、材质等上下文 |
+| `dialogue_delivery_window_summary.csv` | 对白事件周围是否有 shot、camera、performance、sound 和互动逻辑 |
+| `ui_prompt_window_summary.csv` | UI prompt 是否经常和输入、分支、镜头、表演同窗 |
+| `render_family_profiles.csv` | 渲染 pass family candidate 的 pipeline 数、shader pair 数和变体长尾 |
+| `sequence_resource_composition_summary.csv` | top 40 cinematic sequence 由哪些资源类型共同组成 |
+
+这些表的作用不是“把原始研究数据全部公开”。它们只是把最关键的聚合证据留下来，让读者能检查：正文里的判断不是凭感觉写的，而是有数量、有来源、有边界。
+
 ## 开发者应该带走什么
 
 如果你正在做自己的引擎，最值得学的是这些原则：

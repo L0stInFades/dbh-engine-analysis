@@ -1,0 +1,7 @@
+pass_family_candidate,pipeline_count,pipeline_ratio,unique_shader_pairs,pipelines_per_shader_pair,p95_pipelines_per_shader_pair,max_pipelines_per_shader_pair,public_reading,boundary
+clustered_lighting,48718,0.48986,23344,2.08696,4,12,"Nearly half of pipeline rows carry clustered-lighting style resource vocabulary.","Candidate family from shader/resource evidence; not an official pass enum."
+simple_texture_material,23198,0.233256,8257,2.809495,6,175,"A large conventional material/texture path, with a long tail of shader-pair fanout.","Candidate family from shader/resource evidence; not an official pass enum."
+default_material_forward_or_gbuffer,13006,0.130775,6238,2.084963,3,8,"Default material or forward/gbuffer-like evidence stays broad but less extreme in fanout.","Candidate family from shader/resource evidence; not an official pass enum."
+material_instance_state,10135,0.101907,2919,3.472079,6,10,"Material instance buffer evidence forms a distinct state-heavy family.","Candidate family from shader/resource evidence; not an official pass enum."
+shadow_or_depth,2906,0.02922,884,3.28733,3,332,"Small by row count but contains the largest observed shader-pair fanout.","Candidate family from shader/resource evidence; not an official pass enum."
+post_process_pass_texture,1490,0.014982,701,2.125535,3,6,"Post/pass-texture evidence is smaller, but still visible as cooked pipeline data.","Candidate family from shader/resource evidence; not an official pass enum."

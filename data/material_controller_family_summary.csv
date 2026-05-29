@@ -1,0 +1,10 @@
+family,parameter_occurrences,unique_parameters,public_reading,boundary
+damage_blood_wound,4052,75,"Damage, blood and wound controllers dominate the material-controller evidence, which fits narrative state continuity.","Controller family is vocabulary evidence, not an official shader struct."
+android_led,1977,7,"Android LED state is a clear, compact controller family.","Controller family is vocabulary evidence, not an official shader struct."
+weather_fluid_dirt,1586,49,"Rain, fluid and dirt controllers show environment state reaching materials.","Controller family is vocabulary evidence, not an official shader struct."
+prop_surface_state,473,33,"Prop and surface-state controllers indicate material state is not limited to main characters.","Controller family is vocabulary evidence, not an official shader struct."
+android_skin_retract,299,24,"Android skin-retract controllers expose a highly narrative material state.","Controller family is vocabulary evidence, not an official shader struct."
+other,265,72,"The miscellaneous bucket is kept separate to avoid overclaiming weak families.","Controller family is vocabulary evidence, not an official shader struct."
+cloth_hair,144,14,"Cloth and hair state appears as a smaller but visible controller family.","Controller family is vocabulary evidence, not an official shader struct."
+face_tears_scan,110,6,"Face, tears and scan controllers support facial/narrative state evidence.","Controller family is vocabulary evidence, not an official shader struct."
+generic_material_color,3,1,"Generic material color appears but is tiny compared with narrative-specific families.","Controller family is vocabulary evidence, not an official shader struct."

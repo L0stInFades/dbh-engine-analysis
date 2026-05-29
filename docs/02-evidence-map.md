@@ -35,6 +35,26 @@
 | `UI_MENU_RESOURCE` | 128 | UI/Scaleform 资源可追踪 |
 | `FINALIZE_DATA` | 64 | 后处理/presentation preset 资源化 |
 
+## 公开数据文件
+
+正文里的大部分数字，都能在 `data/` 目录里找到对应的公开摘要。它们不是原始扫描表，而是压缩后的证据表，适合放到公开仓库里让读者复查。
+
+| 文件 | 里面是什么 | 适合验证什么 |
+|---|---|---|
+| `key_metrics.json` | 总览指标 | 资源、sequence、渲染、对白、UI、脚本的大规模事实 |
+| `resource_type_summary.csv` | 资源类型、数量、体量 | DBH 的资源系统服务的不只是贴图和模型 |
+| `director_event_category_summary.csv` | director event 类别和 timed 数量 | `SEQUENCE` 同时调度动画、相机、声音、分支、UI、材质、后处理 |
+| `interaction_window_summary.csv` | timed logic seed 的 2 秒同窗统计 | 输入、分支、变量不是孤立逻辑，而是电影化时间窗的一部分 |
+| `dialogue_delivery_window_summary.csv` | timed dialogue seed 的 2 秒同窗统计 | 对白旁边通常有镜头、相机、表演、声音和互动逻辑 |
+| `ui_prompt_window_summary.csv` | timed UI seed 的 2 秒同窗统计 | UI prompt 常常嵌在镜头、输入、分支和表演上下文里 |
+| `render_family_profiles.csv` | pass family candidate、pipeline 数、shader pair fanout | 渲染复杂度可以按 family 和变体压力审计 |
+| `shot_lens_light_summary.csv` | shot、lens、light 聚合指标 | 镜头语言是 authored data，不只是相机参数 |
+| `camera_bank_summary.csv` | camera bank、modifier、target、noise profile | 玩法相机和导演相机之间有可追踪的 bank 证据 |
+| `material_controller_family_summary.csv` | `MVSHADER` family 和参数出现次数 | 叙事状态能进入材质 controller |
+| `sequence_resource_composition_summary.csv` | top 40 cinematic sequence 的资源组成 | 强电影化段落由动画、声音、对白、UI、材质等共同组成 |
+
+这些文件的边界也写在表里。比如 window 表只证明同一条 sequence 时间窗里的共现关系，不证明真实运行时函数调用顺序；render family 表只给 candidate，不冒充官方 pass 名。
+
 ## 资源类型证据
 
 资源类型分布能直接告诉我们这个引擎主要在服务什么内容。最大的几类不是随便的杂项，而是容器、贴图、声音、动画、sequence、UI、脚本、相机等。
@@ -93,6 +113,16 @@
 
 这张表说明 `SEQUENCE` 不只是动画播放器。它同时调度镜头、声音、分支、输入、UI、材质、后处理等系统。
 
+更细一点看，互动逻辑、对白和 UI 都可以做“2 秒同窗”验证：
+
+| 时间窗证据 | seed 数 | 关键同窗项 | 读法 |
+|---|---:|---|---|
+| timed core logic | 17,903 | 91.83% 有 cinematic response，80.48% 有 performance，73.59% 有 dialogue/sound | 分支、输入、变量、UI 常常被放进电影化上下文 |
+| timed dialogue | 7,560 | 98.84% 有 delivery context，98.10% 有 performance，94.72% 有 camera | 对白更像表演 atom，不只是音频事件 |
+| timed UI | 1,414 | 99.22% 有 cinematic context，86.78% 有 shot，77.09% 有 logic partner | UI prompt 多数嵌在镜头和互动逻辑里 |
+
+这类证据很适合指导工具设计。它不是说“UI 一定由某个分支事件直接生成”，而是说：如果你要做互动电影引擎，QA 工具应该能把输入、分支、UI、镜头、对白、表演放在同一个时间窗里看。
+
 ## 渲染证据
 
 渲染侧最强的证据来自 pipeline、SPIR-V、QDIF metadata 和 descriptor/resource ABI 的联表。
@@ -122,6 +152,8 @@ pass family candidate 的分布也很清楚：
 | post process/pass texture | 1,490 |
 
 这些数字支持一个工程判断：DBH 的渲染不是“一堆 shader 文件”，而是 shader library、pipeline manifest、descriptor/resource vocabulary、pass family、variant pressure 共同组成的可审计系统。
+
+`render_family_profiles.csv` 还保留了每个 family 的 shader pair fanout。比如 `clustered_lighting` 有 48,718 条 pipeline、23,344 个 unique shader pair，p95 每个 shader pair 对应 4 条 pipeline；`shadow_or_depth` 只有 2,906 条 pipeline，但最大 shader pair fanout 是 332。这个差异很重要：总量小的 family 也可能藏着极端变体压力。
 
 ## 镜头、灯光和相机证据
 
@@ -193,6 +225,8 @@ flowchart 证据说明分支叙事不是只藏在脚本里。
 | expression-backed parameters | 135 |
 
 主要 family 包括 damage/blood/wound、android LED、weather/fluid/dirt、android skin retract、cloth/hair、face/tears 等。换句话说，角色受伤、雨水、污渍、LED、眼泪、衣物等叙事状态，会进入 sequence、脚本、材质和渲染之间的桥接层。
+
+公开版还保留了一张 `material_controller_family_summary.csv`。它把 family 拆成更直接的数字：damage/blood/wound 有 4,052 次参数出现，android LED 有 1,977 次，weather/fluid/dirt 有 1,586 次。这个分布说明 `MVSHADER` 最活跃的部分不是“随便调颜色”，而是和角色状态、环境状态、仿生人身份特征密切相关。
 
 ## 本章结论
 
