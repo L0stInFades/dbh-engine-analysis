@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <style>
+      .bg { fill: #f6f7f2; }
+      .title { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 42px; font-weight: 800; fill: #1d2528; }
+      .subtitle { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 20px; fill: #526064; }
+      .h { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 27px; font-weight: 800; fill: #ffffff; }
+      .hDark { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 26px; font-weight: 800; fill: #172023; }
+      .label { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #172023; }
+      .text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 17px; fill: #263235; }
+      .small { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 15px; fill: #475255; }
+      .tiny { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; font-size: 13px; fill: #647174; }
+      .box { fill: #ffffff; stroke: #d4dad6; stroke-width: 2; rx: 8; }
+      .soft { fill: #eef3ef; stroke: #d4dad6; stroke-width: 2; rx: 8; }
+      .dbh { fill: #23383d; }
+      .common { fill: #46535c; }
+      .bridge { fill: #e2b84f; }
+      .accent1 { fill: #e9f2f4; stroke: #7ca8b3; stroke-width: 2; rx: 8; }
+      .accent2 { fill: #f4efe6; stroke: #c99c47; stroke-width: 2; rx: 8; }
+      .accent3 { fill: #eef1e6; stroke: #8fa36a; stroke-width: 2; rx: 8; }
+      .accent4 { fill: #f1e9ed; stroke: #bd7d94; stroke-width: 2; rx: 8; }
+      .line { stroke: #57737a; stroke-width: 3; fill: none; }
+      .line2 { stroke: #7a6b50; stroke-width: 3; fill: none; }
+      .dash { stroke: #8b979a; stroke-width: 2; fill: none; stroke-dasharray: 7 7; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#57737a"/>
+    </marker>
+    <marker id="arrow2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#7a6b50"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1050"/>
+
+  <text class="title" x="70" y="72">DBH 定制引擎 vs UE / Unity 常见项目：架构差别一张图</text>
+  <text class="subtitle" x="72" y="108">通俗版：DBH 像一台“互动电影制作流水线”；UE/Unity 更像一套“通用游戏施工平台”。</text>
+
+  <rect class="dbh" x="70" y="145" width="690" height="60" rx="10"/>
+  <text class="h" x="95" y="184">Detroit: Become Human / Quantic Dream 定制引擎</text>
+
+  <rect class="common" x="840" y="145" width="690" height="60" rx="10"/>
+  <text class="h" x="865" y="184">UE / Unity 常见通用项目组织方式</text>
+
+  <!-- DBH architecture -->
+  <rect class="box" x="70" y="225" width="690" height="520" rx="10"/>
+  <rect class="accent2" x="105" y="255" width="620" height="72" rx="8"/>
+  <text class="label" x="130" y="283">1. 资源图先行</text>
+  <text class="text" x="130" y="310">BigFile.idx / dep 统一资源 ID、依赖边、内部对象引用</text>
+
+  <rect class="accent1" x="105" y="355" width="620" height="118" rx="8"/>
+  <text class="label" x="130" y="384">2. 中心是“SEQUENCE 导演时钟”</text>
+  <text class="text" x="130" y="414">镜头、动画、对白、声音、UI、输入、分支、材质、后处理</text>
+  <text class="text" x="130" y="441">都能被放进同一个时间线窗口里审计</text>
+
+  <rect class="accent3" x="105" y="502" width="620" height="92" rx="8"/>
+  <text class="label" x="130" y="531">3. 渲染是预编译工程</text>
+  <text class="text" x="130" y="561">SPIR-V、Pipeline Cache、Descriptor ABI、Pass Family、Variant Atlas</text>
+
+  <rect class="accent4" x="105" y="623" width="620" height="86" rx="8"/>
+  <text class="label" x="130" y="652">4. 工具链能反查“为什么电影感强”</text>
+  <text class="text" x="130" y="681">timeline viewer、rendering audit、sequence dossier、resource composition</text>
+
+  <circle cx="415" cy="398" r="76" fill="#ffffff" stroke="#2c5660" stroke-width="5"/>
+  <text class="label" x="350" y="390">SEQUENCE</text>
+  <text class="label" x="354" y="420">导演时钟</text>
+  <path class="line" d="M415 327 L415 255" marker-end="url(#arrow)"/>
+  <path class="line" d="M415 474 L415 502" marker-end="url(#arrow)"/>
+  <path class="line" d="M520 430 L650 620" marker-end="url(#arrow)"/>
+  <path class="line" d="M310 430 L175 620" marker-end="url(#arrow)"/>
+
+  <rect class="soft" x="103" y="760" width="622" height="92" rx="8"/>
+  <text class="label" x="130" y="791">适合什么？</text>
+  <text class="text" x="130" y="821">强剧情、固定/半固定镜头、表演驱动、分支互动电影</text>
+
+  <!-- UE/Unity common architecture -->
+  <rect class="box" x="840" y="225" width="690" height="520" rx="10"/>
+  <rect class="accent3" x="875" y="255" width="620" height="72" rx="8"/>
+  <text class="label" x="900" y="283">1. 场景 / 对象 / 组件先行</text>
+  <text class="text" x="900" y="310">Actor / GameObject 挂组件，系统通过脚本和事件协作</text>
+
+  <rect class="accent1" x="875" y="355" width="620" height="118" rx="8"/>
+  <text class="label" x="900" y="384">2. Cinematic 通常是一个强工具层</text>
+  <text class="text" x="900" y="414">Sequencer / Timeline 很强，但常见项目里 gameplay、UI、输入、</text>
+  <text class="text" x="900" y="441">材质状态需要项目自己打通和约束</text>
+
+  <rect class="accent2" x="875" y="502" width="620" height="92" rx="8"/>
+  <text class="label" x="900" y="531">3. 渲染框架更通用</text>
+  <text class="text" x="900" y="561">材质、后处理、光照、平台适配更泛化；变体治理靠项目工程化</text>
+
+  <rect class="accent4" x="875" y="623" width="620" height="86" rx="8"/>
+  <text class="label" x="900" y="652">4. 生态和扩展性是核心优势</text>
+  <text class="text" x="900" y="681">插件、编辑器、资产商店、跨类型玩法、快速试错更方便</text>
+
+  <circle cx="1185" cy="398" r="76" fill="#ffffff" stroke="#53606b" stroke-width="5"/>
+  <text class="label" x="1126" y="390">Scene</text>
+  <text class="label" x="1104" y="420">对象/组件</text>
+  <path class="line2" d="M1185 327 L1185 255" marker-end="url(#arrow2)"/>
+  <path class="line2" d="M1185 474 L1185 502" marker-end="url(#arrow2)"/>
+  <path class="dash" d="M1292 430 L1430 620"/>
+  <path class="dash" d="M1080 430 L945 620"/>
+
+  <rect class="soft" x="873" y="760" width="622" height="92" rx="8"/>
+  <text class="label" x="900" y="791">适合什么？</text>
+  <text class="text" x="900" y="821">通用游戏、开放玩法、多人项目、工具生态、快速原型</text>
+
+  <!-- Comparison rows -->
+  <rect class="bridge" x="70" y="885" width="1460" height="46" rx="10"/>
+  <text class="hDark" x="95" y="916">一句话区别：DBH 把“电影导演意图”做成核心数据；UE/Unity 默认更偏“通用对象和组件平台”。</text>
+
+  <rect class="box" x="70" y="950" width="346" height="64" rx="8"/>
+  <text class="label" x="95" y="977">DBH 的关键取舍</text>
+  <text class="small" x="95" y="1002">牺牲一部分通用性，换强叙事一致性</text>
+
+  <rect class="box" x="440" y="950" width="346" height="64" rx="8"/>
+  <text class="label" x="465" y="977">UE/Unity 的关键取舍</text>
+  <text class="small" x="465" y="1002">保留通用弹性，项目自己补强管线</text>
+
+  <rect class="box" x="810" y="950" width="346" height="64" rx="8"/>
+  <text class="label" x="835" y="977">自研引擎该学什么</text>
+  <text class="small" x="835" y="1002">资源图 + 导演时钟 + 渲染 ABI + 审计工具</text>
+
+  <rect class="box" x="1180" y="950" width="350" height="64" rx="8"/>
+  <text class="label" x="1205" y="977">不要误解</text>
+  <text class="small" x="1205" y="1002">这不是说 UE/Unity 做不到，而是默认重心不同</text>
+
+  <text class="tiny" x="70" y="1035">基于本地 _codex_research 总报告证据整理；UE/Unity 指常见通用项目组织方式，不代表引擎能力上限。</text>
+</svg>

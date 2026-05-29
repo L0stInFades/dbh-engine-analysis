@@ -1,0 +1,24 @@
+.DS_Store
+Thumbs.db
+
+# Keep this repository public-safe: do not publish extracted assets or large raw scans.
+outputs/
+samples/
+*.bin
+*.head.bin
+*.wav
+*.wem
+*.dds
+*.png
+*.jpg
+*.jpeg
+*.tga
+*.fbx
+*.big
+*.idx
+*.dep
+
+# Local/editor state
+.idea/
+.vscode/
+*.log

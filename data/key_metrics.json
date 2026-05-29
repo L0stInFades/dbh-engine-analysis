@@ -1,0 +1,66 @@
+{
+  "project": "Detroit: Become Human PC engine analysis public digest",
+  "license": "JSON",
+  "scope": "Public, asset-free engineering summary. Aggregated metrics only.",
+  "metrics": {
+    "bigfile": {
+      "idx_entries": 373748,
+      "resource_types": 41,
+      "unpadded_size_gb": 57.31,
+      "dep_edges": 1002543,
+      "owners_with_deps": 117586,
+      "idx_backed_dep_edges": 547368,
+      "internal_or_non_idx_dep_edges": 455175
+    },
+    "sequence_director": {
+      "sequence_count": 5479,
+      "timeline_chunks": 1117054,
+      "director_events": 616474,
+      "timed_primary_actions": 320455,
+      "shot_count": 27959,
+      "action_markers": 809404,
+      "mvshader_rows": 5283,
+      "thirty_fps_grid_ratio": 0.999978
+    },
+    "rendering": {
+      "spirv_modules": 81649,
+      "pipeline_state_records": 99453,
+      "unique_shader_pairs": 42343,
+      "state_expanded_shader_pairs": 38477,
+      "qdif_spirv_matched_descriptor_bindings": 729418,
+      "texture_resources": 127939,
+      "finalize_data_resources": 64
+    },
+    "narrative_systems": {
+      "flow_dialog_atoms": 80976,
+      "anim_data_resources": 24562,
+      "script_collections": 855,
+      "lua_chunks": 18258,
+      "camera_system_banks": 68,
+      "ui_menu_resources": 128,
+      "flowchart_ui_resources": 32,
+      "localization_languages_observed": 26
+    }
+  },
+  "derived_systems": [
+    "asset_index_and_dependency_graph",
+    "container_and_streaming",
+    "rendering_pipeline",
+    "shader_material_controller",
+    "post_finalize_stack",
+    "sequence_director_timeline",
+    "shot_camera_lighting",
+    "camera_system_bank",
+    "animation_performance",
+    "dialogue_audio_localization",
+    "script_logic_variables",
+    "ui_scaleform_flowchart_subtitle"
+  ],
+  "non_claims": [
+    "Not official documentation.",
+    "Not source-level reverse engineering.",
+    "Not a runtime control-flow proof.",
+    "Not exact runtime load order.",
+    "Does not include original game assets or extracted content."
+  ]
+}
